@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>TikTok Clone</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 100vh;
+      background-color: rgb(223, 223, 223);
+    }
+
+    .header {
+      width: 100%;
+      height: 60px;
+      background-color: #333;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .column-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .video-column {
+      position: relative;
+      width: 320px;
+      height: 568px;
+      margin: 10px;
+      overflow: hidden;
+    }
+
+    .video-column video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .footer {
+      width: 100%;
+      padding: 10px;
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="logo">SHORT PLAY</div>
+  </div>
+
+  <div class="column-container">
+    <div class="video-column">
+      <video class="video-player" controls>
+        <source src="Snaptik.app_7235112131501231365.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="video-column">
+      <video class="video-player" controls>
+        <source src="Snaptik.app_7249299704213736710.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="video-column">
+      <video class="video-player" controls>
+        <source src="Snaptik.app_7252290367813471490.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="video-column">
+      <video class="video-player" controls>
+        <source src="YU.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="video-column">
+      <video class="video-player" controls>
+        <source src="YI.mp4" type="video/wav">
+      </video>
+    </div>
+    <!-- Tambahkan lebih banyak video-column sesuai kebutuhan -->
+  </div>
+
+  <div class="upload-form">
+    <input type="file" id="upload-video" accept="video/*">
+    <button id="upload-button">Unggah Video</button>
+  </div>
+
+  <div class="footer">
+    &copy; 2023 SHORT PLAY. All rights reserved.
+  </div>
+
+  <script>
+    function setCookie(name, value, days) {
+      const expires = new Date();
+      expires.setTime(expires.getTime() + (days * 24 * 60 * 60 * 1000));
+      document.cookie = name + '=' + value + ';expires=' + expires.toUTCString();
+    }
+
+    function getCookie(name) {
+      const cookies = document.cookie.split(';');
+      for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i].trim();
+        if (cookie.startsWith(name + '=')) {
+          return cookie.substring(name.length + 1, cookie.length);
+        }
+      }
+      return null;
+    }
+
+    function uploadVideo() {
+      const file = document.getElementById('upload-video').files[0];
+      const video = document.createElement('video');
+      const videoColumn = document.createElement('div');
+      videoColumn.className = 'video-column';
+
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        video.src = event.target.result;
+        video.controls = true;
+        videoColumn.appendChild(video);
+        document.querySelector('.column-container').appendChild(videoColumn);
+
+        // Set cookie to remember uploaded video
+        setCookie('uploadedVideo', file.name, 30);
+      };
+
+      reader.readAsDataURL(file);
+    }
+
+    document.getElementById('upload-button').addEventListener('click', uploadVideo);
+
+    // Check if there is a previously uploaded video
+    const uploadedVideo = getCookie('uploadedVideo');
+    if (uploadedVideo) {
+      const video = document.createElement('video');
+      const videoColumn = document.createElement('div');
+      videoColumn.className = 'video-column';
+
+      video.src = uploadedVideo;
+      video.controls = true;
+      videoColumn.appendChild(video);
+      document.querySelector('.column-container').appendChild(videoColumn);
+    }
+  </script>
+</body>
+</html>
